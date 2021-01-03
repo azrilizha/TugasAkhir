@@ -1,22 +1,25 @@
 import csv
 import os
+import datetime
 
+date = datetime.date.today()
 nama_file = "data servis Virtual Komputer.csv"
 
 def blank_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-#1 : Membuat file data baru dalam format csv
-def buat_baru():
-    blank_screen()
-    with open(nama_file, 'w', newline='') as csv_file: 
-        header = ["Tanggal","Nama Barang","Jumlah","Estimasi","Biaya Total"]
-        tulis = csv.writer(csv_file, delimiter=';')
-        tulis.writerow(header)
-    print("File Berhasil Dibuat")
-    kembali()
+barang = []
 
-#2 : Menambah atau menulis file data baru
+with open('data servis Virtual Komputer.csv', 'w', newline='') as csv_file:
+    barang = ["Tanggal","Nama Barang","Jumlah","Estimasi","Biaya Total"]
+    tulis = csv.writer(csv_file, delimiter=';')
+    tulis.writerow(barang)
+    tulis = csv.writer(csv_file)
+  
+
+
+
+#1 : Menambah atau menulis file data baru
 def tambahkan():
     blank_screen() 
     with open(nama_file, 'a', newline='') as csv_file:
@@ -24,7 +27,8 @@ def tambahkan():
         print("TAMBAHKAN BARANG".center(90))
         print("SERVIS ELEKTRONIK DAN KOMPUTER".center(90))
         print("="*90)      
-        tanggal = input('Tanggal : ')
+        date = datetime.date.today()
+        tanggal = date.strftime('%d-%m-%Y')
         nama = input('Nama Barang : ') 
         jumlah = int(input('Jumlah : ')) 
         biaya = int(input('Estimasi : Rp.')) 
@@ -36,7 +40,7 @@ def tambahkan():
     print("Data sukses ditambahkan..")
     kembali() 
 
-#3 : Menampilkan data dari file sebelumnya
+#2 : Menampilkan data dari file sebelumnya
 def tampil_data():
     blank_screen()
     barang = []
@@ -58,7 +62,7 @@ def tampil_data():
         print("TIDAK ADA BARANG".center(90))
         kembali()
 
-#4 : Menghapus data yang ingin dihapus
+#3 : Menghapus data yang ingin dihapus
 def hapus():
     blank_screen()
     barang = []
@@ -73,8 +77,8 @@ def hapus():
         number = 0
         for dt in barang:
          print (f"{str(number)} \t {dt[0]:<15} {dt[1]:<18} {dt[2]:^17} {dt[3]:<19} {dt[4]:<18}")
-        number += 1
-        print ("_"*90)
+         number += 1
+         print ("_"*90)
     elif len(barang) <= 1:
         print("TIDAK ADA BARANG".center(90))
         kembali()
@@ -88,7 +92,7 @@ def hapus():
     print("Data sukses dihapus..")
     kembali()
 
-#5 mengedit data
+#4 mengedit data
 def edit_data():
     blank_screen()
     barang = [] 
@@ -106,7 +110,8 @@ def edit_data():
                 number += 1
                 print ("_"*90)
             number = int(input('Pilih nomer : '))
-            tanggal = input('\nTanggal : ')
+            date = datetime.date.today()
+            tanggal = date.strftime('%d-%m-%Y')
             nama = input('Nama Barang : ') 
             jumlah = int(input('Jumlah : ')) 
             biaya = int(input('Estimasi : Rp.')) 
@@ -138,23 +143,20 @@ def beranda():
     print("="*72)
     print(''' 
     |99| Keluar
-    |1|  Buat daftar Servis [.csv] 
-    |2|  Tambah data Servis
-    |3|  Lihat data Servis
-    |4|  Hapus data Servis (Jika sudah)
-    |5|  Edit data Servis''') 
+    |1|  Tambah data Servis
+    |2|  Lihat data Servis
+    |3|  Hapus data Servis (Jika sudah)
+    |4|  Edit data Servis''') 
     print("="*72)
     pilihan_menu = input(" Pilih tindakan : ")
     if(pilihan_menu == "1"):
-        buat_baru() 
+        tambahkan()  
     elif(pilihan_menu == "2"): 
-        tambahkan() 
+        tampil_data()
     elif(pilihan_menu == "3"):
-        tampil_data() 
+        hapus() 
     elif(pilihan_menu == "4"):
-        hapus()  
-    elif(pilihan_menu == "5"):
-        edit_data()
+        edit_data()  
     elif(pilihan_menu == "99"): 
         exit()
     else:
